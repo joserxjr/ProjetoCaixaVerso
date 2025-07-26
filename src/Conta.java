@@ -1,8 +1,11 @@
+import java.time.LocalDateTime;
+
 abstract class  Conta {
 
     private String nome;
     private static Integer numConta = 0;
     private Double saldo;
+    private LocalDateTime dataHora;
 
     public Conta(String nome) {
         this.nome = nome;
@@ -27,11 +30,11 @@ abstract class  Conta {
     }
 
     public void depositar(double valor) {
-
+    dataHora = LocalDateTime.now();
     }
 
     public void sacar(double valor) {
-
+    dataHora = LocalDateTime.now();
     }
 
 

@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -11,6 +12,7 @@ public class Main {
 
         int opcao;
         List<Conta> conta = new ArrayList<>();
+        List<Transacoes> transacoes = new ArrayList<>();
 
         do {
             System.out.println("-------------------------------");
@@ -25,8 +27,8 @@ public class Main {
             System.out.println("0 - Sair. ");
             System.out.println("-------------------------------");
             opcao = sc.nextInt();
-            sc.nextLine();
             System.out.println();
+            sc.nextLine();
 
                 switch (opcao) {
                     case 0:
@@ -43,7 +45,6 @@ public class Main {
                         conta.add(novaCC);
                         System.out.println("Dados incluídos com sucesso. ");
                         System.out.println(novaCC);
-
                         break;
                     case 2:
                         System.out.print("Digite o nome do titular: ");
@@ -70,6 +71,9 @@ public class Main {
                             System.out.print("Digite o valor do deposito: ");
                             double valorDeposito = sc.nextDouble();
                             contaEncontrada.depositar(valorDeposito);
+                            Transacoes operacoes = new Transacoes(contaDeposito,valorDeposito, LocalDateTime.now());
+                            transacoes.add(operacoes);
+                            System.out.println(operacoes);
                         }else{
                             System.out.println("Conta não encontrada. ");
                         }
@@ -90,6 +94,9 @@ public class Main {
                             } else if (contaEncontrada2 instanceof ContaPoupanca) {
                                 contaEncontrada2.sacar(valorSaque);
                             }
+                            Transacoes operacoes = new Transacoes(contaSaque,valorSaque,LocalDateTime.now());
+                            transacoes.add(operacoes);
+                            System.out.println(operacoes);
                         } else {
                             System.out.println("Conta não encontrada. ");
                         }

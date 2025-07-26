@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class ContaCorrente extends Conta {
     private static Double limiteAprovado;
     private Double limite;
@@ -28,21 +30,17 @@ public class ContaCorrente extends Conta {
 
     @Override
     public void depositar(double valor) {
-        if (valor <= 0) {
-            System.out.println("Valor inválido para depósito.");
-            return;
-        }
+
         setSaldo(getSaldo() + valor);
+        double saldoAtual = getSaldo();
+        double novoLimite = limite + valor;
+        if (saldoAtual + limite >= limiteAprovado) {
+            limite = limiteAprovado;
+        } else {
+            limite = novoLimite;
+        }
         System.out.println("Depósito de R$" + valor + " realizado com sucesso.");
 
-        if (getSaldo() < ContaCorrente.getLimiteAprovado()) {
-            double novoLimite = limite + valor;
-            if (novoLimite > ContaCorrente.getLimiteAprovado()) {
-                limite = ContaCorrente.getLimiteAprovado();
-            } else {
-                limite = novoLimite;
-            }
-        }
     }
 
     @Override

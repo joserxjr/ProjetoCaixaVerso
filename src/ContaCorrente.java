@@ -31,7 +31,7 @@ public class ContaCorrente extends Conta {
     @Override
     public void depositar(double valor) {
 
-        setSaldo(getSaldo() + valor);
+        atualizarSaldo(valor);
         double saldoAtual = getSaldo();
         double novoLimite = limite + valor;
         if (saldoAtual + limite >= limiteAprovado) {
@@ -47,10 +47,10 @@ public class ContaCorrente extends Conta {
     public void sacar(double valor){
         double saldoTotal = getSaldo() + limite;
         if (valor > 0 && valor <= getSaldo()) {
-            setSaldo(getSaldo() - valor);
+            atualizarSaldo(-valor);
             System.out.println("Saque realizado com sucesso! ");
         } else if (valor > 0 && valor <= saldoTotal) {
-            setSaldo(getSaldo()-valor);
+            atualizarSaldo(-valor);
             limite =  limite - (valor - getSaldo());
         }else {
             System.out.println("Valor de saque inválido ou conta não possui saldo para operação. ");

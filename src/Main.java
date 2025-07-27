@@ -24,10 +24,10 @@ public class Main {
             System.out.println("3 - Exibir contas: ");
             System.out.println("4 - Depositar: ");
             System.out.println("5 - Sacar: ");
+            System.out.println("6 - Extrato: ");
             System.out.println("0 - Sair. ");
             System.out.println("-------------------------------");
             opcao = sc.nextInt();
-            System.out.println();
             sc.nextLine();
 
                 switch (opcao) {
@@ -56,8 +56,8 @@ public class Main {
                         break;
                     case 3:
                         System.out.println("Contas cadastrada: ");
-                        for (Conta dado : conta){
-                            System.out.println(dado);
+                        for (Conta c : conta){
+                            System.out.println(c);
                         }
                         break;
                     case 4:
@@ -71,7 +71,7 @@ public class Main {
                             System.out.print("Digite o valor do deposito: ");
                             double valorDeposito = sc.nextDouble();
                             contaEncontrada.depositar(valorDeposito);
-                            Transacoes operacoes = new Transacoes(contaDeposito,valorDeposito, LocalDateTime.now());
+                            Transacoes operacoes = new Transacoes(contaDeposito,valorDeposito, LocalDateTime.now(), TipoOperacao.CREDITO);
                             transacoes.add(operacoes);
                             System.out.println(operacoes);
                         }else{
@@ -94,13 +94,29 @@ public class Main {
                             } else if (contaEncontrada2 instanceof ContaPoupanca) {
                                 contaEncontrada2.sacar(valorSaque);
                             }
-                            Transacoes operacoes = new Transacoes(contaSaque,valorSaque,LocalDateTime.now());
+                            Transacoes operacoes = new Transacoes(contaSaque,valorSaque,LocalDateTime.now(),TipoOperacao.DEBITO);
                             transacoes.add(operacoes);
                             System.out.println(operacoes);
+
                         } else {
                             System.out.println("Conta não encontrada. ");
                         }
                         System.out.println(contaEncontrada2);
+                        break;
+                    case 6:
+                        System.out.println("Digite uma conta já cadastrada para extrato: ");
+                        int contaExtrato = sc.nextInt();
+                        Transacoes contaEncontrada3 = transacoes.stream()
+                                .filter(t ->t.getNumConta() == contaExtrato)
+                                .findFirst()
+                                .orElse(null);
+                        if (contaEncontrada3 != null){
+                            for (Transacoes t : transacoes){
+                                System.out.println(t);
+                            }
+                        }else {
+                            System.out.println("Conta não encontrada. ");
+                        }
                         break;
                     default:
                         System.out.println("Opção inválida, repita. ");

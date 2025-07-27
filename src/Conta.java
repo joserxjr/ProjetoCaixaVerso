@@ -25,25 +25,17 @@ abstract class  Conta {
         return saldo;
     }
 
-    protected void setSaldo(double saldo) {
-        this.saldo = saldo;
+    protected void atualizarSaldo(double valor) {
+        this.saldo += valor;
+        dataHora = LocalDateTime.now();
     }
 
     public void depositar(double valor) {
-    dataHora = LocalDateTime.now();
     }
 
     public void sacar(double valor) {
-    dataHora = LocalDateTime.now();
     }
 
 
-    @Override
-    public String toString() {
-        return "Conta{" +
-                "nome='" + nome + '\'' +
-                ", numConta=" + numConta +
-                ", saldo=" + saldo +
-                '}';
-    }
+
 }

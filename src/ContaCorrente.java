@@ -1,21 +1,21 @@
-import java.util.Objects;
 
 public class ContaCorrente extends Conta {
     private static Double limiteAprovado;
-    private Double limite;
+    private Double limiteDisponivel;
+    private  Double limiteOriginal;
 
-    public ContaCorrente(String nome, Double limite) {
+    public ContaCorrente(String nome, Double limiteAprovado) {
         super(nome);
-        this.limite = limite;
+        this.limiteAprovado = limiteAprovado;
+        this.limiteDisponivel = limiteAprovado;
+        this.limiteOriginal = limiteAprovado;
     }
 
     public static Double getLimiteAprovado() {
         return limiteAprovado;
     }
 
-    public Double getLimite() {
-        return limite;
-    }
+
 
     public static void limiteAprovado(double renda){
         if (renda < 1000.00){
@@ -30,46 +30,57 @@ public class ContaCorrente extends Conta {
 
     @Override
     public void depositar(double valor) {
-
-        atualizarSaldo(valor);
-        double saldoAtual = getSaldo();
-        double novoLimite = limite + valor;
-        if (saldoAtual + limite >= limiteAprovado) {
-            limite = limiteAprovado;
-        } else {
-            limite = novoLimite;
+        if (valor <= 0) {
+            System.out.println("Valor de depósito deve ser positivo.");
+            return;
         }
-        System.out.println("Depósito de R$" + valor + " realizado com sucesso.");
-
+        double saldoAnterior = getSaldo();
+        if (saldoAnterior < 0) {
+            if (valor >= limiteOriginal){
+                limiteDisponivel = limiteOriginal;
+                atualizarSaldo(valor);
+            } else {
+                limiteDisponivel += valor;
+                atualizarSaldo(valor);
+            }
+        } else {
+            atualizarSaldo(valor);
+        }
+        System.out.println("Deposito de R$" + String.format("%.2f", valor) + " realizado com sucesso.");
     }
 
     @Override
     public void sacar(double valor){
-        double saldoTotal = getSaldo() + limite;
-        if (valor > 0 && valor <= getSaldo()) {
-            atualizarSaldo(-valor);
-            System.out.println("Saque realizado com sucesso! ");
-        } else if (valor > 0 && valor <= saldoTotal) {
-            atualizarSaldo(-valor);
-            limite =  limite - (valor - getSaldo());
-        }else {
-            System.out.println("Valor de saque inválido ou conta não possui saldo para operação. ");
+            if (valor <= 0) {
+                System.out.println("Valor de saque deve ser positivo.");
+                return;
+            }
+            double saldoAtual = getSaldo();
+            double totalDisponivel = saldoAtual + limiteDisponivel;
+            if (valor > totalDisponivel) {
+                System.out.println("Valor de saque inválido. Saldo + limite insuficientes.");
+                return;
+            }
+            if (valor <= saldoAtual) {
+                atualizarSaldo(-valor);
+                System.out.println("Saque de R$" + String.format("%.2f", valor) + " realizado com sucesso.");
+            } else {
+                double valorDoLimite = valor - saldoAtual;
+                atualizarSaldo(-valor);
+                limiteDisponivel -= valorDoLimite;
+            }
         }
-
-    }
 
     @Override
     public String toString() {
         return "ContaCorrente{" +
-                "nome='" + getNome() + '\'' +
+                "nome=" + getNome() +
                 ", numConta=" + getNumConta() +
                 ", saldo=" + getSaldo() +
-                ", limite=" + limite +
+                ", limiteDisponivel=" + limiteDisponivel +
+                ", limiteOriginal=" + limiteOriginal +
                 '}';
     }
-
-
-
 }
 
 

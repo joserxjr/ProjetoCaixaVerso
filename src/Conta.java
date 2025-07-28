@@ -27,13 +27,12 @@ abstract class  Conta {
 
     protected void atualizarSaldo(double valor) {
         this.saldo += valor;
-        dataHora = LocalDateTime.now();
     }
 
-    public void depositar(double valor) {
+    protected void depositar(double valor) {
     }
 
-    public void sacar(double valor) {
+    protected void sacar(double valor) {
     }
 
 

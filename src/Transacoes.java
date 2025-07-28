@@ -14,7 +14,6 @@ public class Transacoes {
         this.tipo = tipo;
     }
 
-
     public Integer getNumConta() {
         return numConta;
     }

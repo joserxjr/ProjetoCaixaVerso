@@ -1,13 +1,13 @@
 public class ContaPoupanca extends Conta{
-    public ContaPoupanca(String nome) {
-        super(nome);
+    public ContaPoupanca(String nome, Integer numConta) {
+        super(nome, numConta);
     }
 
     @Override
     public void depositar(double valor) {
         if (valor > 0) {
             atualizarSaldo(valor);
-            System.out.println("Depósito de R$" + valor + " realizado com sucesso.");
+            System.out.println("Depósito de R$" + String.format("%.2f", valor)+ " realizado com sucesso.");
         } else {
             System.out.println("Valor inválido para depósito.");
         }
@@ -17,7 +17,7 @@ public class ContaPoupanca extends Conta{
     public void sacar(double valor) {
         if (valor > 0 && valor <= getSaldo()) {
             atualizarSaldo(-valor);
-            System.out.println("Saque de R$" + valor + " realizado com sucesso.");
+            System.out.println("Saque de R$" + String.format("%.2f", valor) + " realizado com sucesso.");
         } else {
             System.out.println("Saque não autorizado. Verifique o valor e o saldo disponível.");
         }
@@ -28,7 +28,7 @@ public class ContaPoupanca extends Conta{
         return "ContaPoupança{" +
                 "nome='" + getNome() + '\'' +
                 ", numConta=" + getNumConta() +
-                ", saldo=" + getSaldo() +
+                ", saldo=" + String.format("%.2f",getSaldo() ) +
                 '}';
     }
 }

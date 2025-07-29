@@ -16,6 +16,10 @@ public class Service {
                 .findFirst()
                 .orElse(null);
     }
-
+    private static int contagem = 0;
+    public static int gerarConta() {
+        contagem++;
+        return contagem;
+    }
 
 }

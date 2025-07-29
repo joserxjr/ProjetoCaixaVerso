@@ -4,8 +4,8 @@ public class ContaCorrente extends Conta {
     private Double limiteDisponivel;
     private  Double limiteOriginal;
 
-    public ContaCorrente(String nome, Double limiteAprovado) {
-        super(nome);
+    public ContaCorrente(String nome, Integer numConta, Double limiteAprovado) {
+        super(nome, numConta);
         this.limiteAprovado = limiteAprovado;
         this.limiteDisponivel = limiteAprovado;
         this.limiteOriginal = limiteAprovado;
@@ -36,7 +36,7 @@ public class ContaCorrente extends Conta {
         }
         double saldoAnterior = getSaldo();
         if (saldoAnterior < 0) {
-            if (valor >= limiteOriginal){
+            if (valor + saldoAnterior >= limiteOriginal){
                 limiteDisponivel = limiteOriginal;
                 atualizarSaldo(valor);
             } else {
@@ -76,7 +76,7 @@ public class ContaCorrente extends Conta {
         return "ContaCorrente{" +
                 "nome=" + getNome() +
                 ", numConta=" + getNumConta() +
-                ", saldo=" + getSaldo() +
+                ", saldo=" + String.format("%.2f", getSaldo()) +
                 ", limiteDisponivel=" + limiteDisponivel +
                 ", limiteOriginal=" + limiteOriginal +
                 '}';

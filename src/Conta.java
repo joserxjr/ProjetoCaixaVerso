@@ -3,13 +3,12 @@ import java.time.LocalDateTime;
 abstract class  Conta {
 
     private String nome;
-    private static Integer numConta = 0;
+    private Integer numConta;
     private Double saldo;
-    private LocalDateTime dataHora;
 
-    public Conta(String nome) {
+    public Conta(String nome, Integer numConta) {
         this.nome = nome;
-        this.numConta += 1;
+        this.numConta = numConta;
         this.saldo = 0.0;
     }
 

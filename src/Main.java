@@ -42,7 +42,7 @@ public class Main {
                         double renda = sc.nextDouble();
                         ContaCorrente.limiteAprovado(renda);
                         Double limiteImplantar = ContaCorrente.getLimiteAprovado();
-                        ContaCorrente novaCC = new ContaCorrente(nome, limiteImplantar);
+                        ContaCorrente novaCC = new ContaCorrente(nome, Service.gerarConta(),limiteImplantar);
                         conta.add(novaCC);
                         System.out.println("Dados incluídos com sucesso. ");
                         System.out.println(novaCC);
@@ -50,7 +50,7 @@ public class Main {
                     case 2:
                         System.out.print("Digite o nome do titular: ");
                         nome = sc.nextLine();
-                        ContaPoupanca novaCp = new ContaPoupanca(nome);
+                        ContaPoupanca novaCp = new ContaPoupanca(nome, Service.gerarConta());
                         conta.add(novaCp);
                         System.out.println("Dados incluídos com sucesso. ");
                         System.out.println(novaCp);
@@ -64,45 +64,51 @@ public class Main {
                     case 4:
                         System.out.println("Digite uma conta já cadastrada para deposito: ");
                         int contaDeposito = sc.nextInt();
-                        Conta contaEncontrada = Service.buscarConta(conta, contaDeposito);
-                        if (contaEncontrada != null) {
+                        Conta contaBuscaDeb = Service.buscarConta(conta, contaDeposito);
+                        if (contaBuscaDeb != null) {
                             System.out.print("Digite o valor do deposito: ");
                             double valorDeposito = sc.nextDouble();
-                            contaEncontrada.depositar(valorDeposito);
-                            Transacoes operacoes = new Transacoes(contaDeposito, valorDeposito, LocalDateTime.now(), TipoOperacao.CREDITO);
+                            contaBuscaDeb.depositar(valorDeposito);
+                            Transacoes operacoes = new Transacoes(
+                                    contaDeposito,
+                                    valorDeposito,
+                                    LocalDateTime.now(),
+                                    TipoOperacao.CREDITO,
+                                    contaBuscaDeb.getSaldo());
                             transacoes.add(operacoes);
                             System.out.println(operacoes);
                         } else {
                             System.out.println("Conta não encontrada. ");
                         }
-                        System.out.println(contaEncontrada);
+                        System.out.println(contaBuscaDeb);
                         break;
                     case 5:
                         System.out.println("Digite uma conta já cadastrada para saque: ");
                         int contaSaque = sc.nextInt();
-                        Conta contaEncontrada2 = Service.buscarConta(conta, contaSaque);
-                        if (contaEncontrada2 != null) {
+                        Conta contaBuscaCred = Service.buscarConta(conta, contaSaque);
+                        if (contaBuscaCred != null) {
                             System.out.println("Digite um valor de saque:");
                             double valorSaque = sc.nextDouble();
-                            if (contaEncontrada2 instanceof ContaCorrente) {
-                                contaEncontrada2.sacar(valorSaque);
-                            } else if (contaEncontrada2 instanceof ContaPoupanca) {
-                                contaEncontrada2.sacar(valorSaque);
-                            }
-                            Transacoes operacoes = new Transacoes(contaSaque, valorSaque, LocalDateTime.now(), TipoOperacao.DEBITO);
+                            contaBuscaCred.sacar(valorSaque);
+                            Transacoes operacoes = new Transacoes(
+                                    contaSaque,
+                                    valorSaque,
+                                    LocalDateTime.now(),
+                                    TipoOperacao.DEBITO,
+                                    contaBuscaCred.getSaldo());
                             transacoes.add(operacoes);
                             System.out.println(operacoes);
 
                         } else {
                             System.out.println("Conta não encontrada. ");
                         }
-                        System.out.println(contaEncontrada2);
+                        System.out.println(contaBuscaCred);
                         break;
                     case 6:
                         System.out.println("Digite uma conta já cadastrada para extrato: ");
                         int contaExtrato = sc.nextInt();
-                        Transacoes contaEncontrada3 = Service.buscarTransacao(transacoes, contaExtrato);
-                        if (contaEncontrada3 != null) {
+                        Transacoes contaBuscaExtrato = Service.buscarTransacao(transacoes, contaExtrato);
+                        if (contaBuscaExtrato != null) {
                             for (Transacoes t : transacoes) {
                                 System.out.println(t);
                             }

@@ -2,7 +2,7 @@
 public class ContaCorrente extends Conta {
     private static Double limiteAprovado;
     private Double limiteDisponivel;
-    private  Double limiteOriginal;
+    private final Double limiteOriginal;
 
     public ContaCorrente(String nome, Integer numConta, Double limiteAprovado) {
         super(nome, numConta);

@@ -2,8 +2,8 @@ import java.time.LocalDateTime;
 
 abstract class  Conta {
 
-    private String nome;
-    private Integer numConta;
+    private final String nome;
+    private final Integer numConta;
     private Double saldo;
 
     public Conta(String nome, Integer numConta) {

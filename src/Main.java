@@ -1,8 +1,5 @@
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -42,7 +39,7 @@ public class Main {
                         double renda = sc.nextDouble();
                         ContaCorrente.limiteAprovado(renda);
                         Double limiteImplantar = ContaCorrente.getLimiteAprovado();
-                        ContaCorrente novaCC = new ContaCorrente(nome, Service.gerarConta(),limiteImplantar);
+                        ContaCorrente novaCC = new ContaCorrente(nome, Service.gerarConta(), limiteImplantar);
                         conta.add(novaCC);
                         System.out.println("Dados incluídos com sucesso. ");
                         System.out.println(novaCC);
@@ -108,6 +105,7 @@ public class Main {
                         System.out.println("Digite uma conta já cadastrada para extrato: ");
                         int contaExtrato = sc.nextInt();
                         Transacoes contaBuscaExtrato = Service.buscarTransacao(transacoes, contaExtrato);
+                        transacoes.sort(Comparator.comparing(Transacoes::getDataHora).reversed());
                         if (contaBuscaExtrato != null) {
                             for (Transacoes t : transacoes) {
                                 System.out.println(t);
@@ -119,11 +117,15 @@ public class Main {
                     default:
                         System.out.println("Opção inválida, repita. ");
                 }
+            }catch (InputMismatchException e){
+                System.out.println("Erro: Digite apenas números. Use ponto para decimais." + e.getMessage());
+                opcao = 0;
 
             } catch (Exception e) {
-                System.out.println("Erro inesperado: " + e.getMessage());
+                System.out.println("Erro inesperado. " + e.getMessage());
                 opcao = 0;
             }
+
         } while (opcao != 0);
 
         sc.close();

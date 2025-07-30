@@ -2,11 +2,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Transacoes {
-    private Integer numConta;
-    private Double valor;
-    private LocalDateTime dataHora;
-    private TipoOperacao tipo;
-    private Double saldo;
+    private final Integer numConta;
+    private final Double valor;
+    private final LocalDateTime dataHora;
+    private final TipoOperacao tipo;
+    private final Double saldo;
 
     public Transacoes(Integer numConta, Double valor, LocalDateTime dataHora, TipoOperacao tipo, Double saldo) {
         this.numConta = numConta;
